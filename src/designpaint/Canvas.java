@@ -260,13 +260,15 @@ public class Canvas extends JPanel implements ActionListener {
                         selectedMode = Mode.resize;
                         break;    
                     case VK_F:
-                        //System.out.println(root.print(""));
-                        //System.out.println(root.toString());
-                        FileIO.save(rootRef.get(), "test.txt");
+                        Command cmd = new Command_Save(rootRef.get(), "test.txt");
+                        cmd.execute();
                         break;
                     case VK_L:
                         rootRef.set(FileIO.load("test.txt"));
-                        repaint(); 
+                        selectedShape.set(rootRef.get());
+                        selectedGroup.set(rootRef.get());
+                        rootRef.get().setGroup(rootRef);
+                        repaint();
                         break;
                     case VK_ESCAPE:
                         text.setText("");
@@ -323,7 +325,6 @@ public class Canvas extends JPanel implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getActionCommand());
         switch(e.getActionCommand()) {
             case "save":
                 Command cmd = new Command_Save(rootRef.get(), "test.txt");
