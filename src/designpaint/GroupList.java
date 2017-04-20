@@ -13,6 +13,7 @@ public class GroupList extends JList {
 
     public GroupList(Canvas panel) {
         super();
+        this.setFocusable(false);
         model = new GroupListModel(panel.getTree(), panel);
         this.setModel(model);
 //        this.setPreferredSize(new Dimension(200, 700));

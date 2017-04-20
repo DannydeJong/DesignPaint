@@ -7,6 +7,8 @@ import javax.swing.JMenuItem;
 
 public class PaintMenuBar extends JMenuBar {
     public PaintMenuBar(Canvas panel) {
+        super();
+        this.setFocusable(false);
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(VK_F);
 
