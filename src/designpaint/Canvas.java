@@ -4,13 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.BorderFactory;
@@ -46,15 +44,13 @@ public class Canvas extends JPanel implements ActionListener {
     
     private Shape select = new Select(0, 0, 0, 0);
     private AtomicReference<Component> selectedShape;
-    private AtomicReference<Composite> selectedGroup;
-    private AtomicReference<Component> newShape;
-    private AtomicReference<Composite> rootRef;
+    private final AtomicReference<Composite> selectedGroup;
+    private final AtomicReference<Component> newShape;
+    private final AtomicReference<Composite> rootRef;
     
     private final Stack<Command> history;
     private final Stack<Command> future;
     
-    private int anchorX;
-    private int anchorY;
     private int clickX;
     private int clickY;
     private int dragX;
@@ -69,8 +65,6 @@ public class Canvas extends JPanel implements ActionListener {
      */
     public Canvas() {
         this.selectedMode = Mode.none;
-        this.anchorY = 0;
-        this.anchorX = 0;
         this.clickX = 0;
         this.clickY = 0;
         this.dragX = 0;
@@ -118,8 +112,6 @@ public class Canvas extends JPanel implements ActionListener {
                 clickY = e.getY();
                 dragX = e.getX();
                 dragY = e.getY();
-                int x = 0;
-                int y = 0;
                 Command cmd;
                 
                 System.out.println("History size: " + history.size());
@@ -187,8 +179,6 @@ public class Canvas extends JPanel implements ActionListener {
             @Override
             public void mouseDragged(MouseEvent e) {
                 Command cmd;
-                int x = e.getX() - dragX;
-                int y = e.getY() - dragY;
                 
                 if(null != selectedMode) 
                 switch (selectedMode) {
