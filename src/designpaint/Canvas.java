@@ -328,12 +328,12 @@ public class Canvas extends JPanel implements ActionListener {
             case "save":
                 Command cmd = new Command_Save(rootRef.get(), "test.txt");
                 cmd.execute();
-                //FileIO.save(rootRef.get(), "test.txt");
                 break;
             case "load":
                 rootRef.set(FileIO.load("test.txt"));
                 selectedShape.set(rootRef.get());
                 selectedGroup.set(rootRef.get());
+                rootRef.get().setGroup(rootRef);
                 repaint();
                 break;
             case "ellipse":
