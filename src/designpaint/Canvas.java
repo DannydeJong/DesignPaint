@@ -41,11 +41,9 @@ public class Canvas extends JPanel implements ActionListener {
         resize,
         select
     }
-    private Mode selectedMode = Mode.none;
-    private JLabel text;
+    private Mode selectedMode;
+    private final JLabel text;
     
-    private List<Shape> shapes;
-    private Composite root;
     private Shape select = new Select(0, 0, 0, 0);
     private AtomicReference<Component> selectedShape;
     private AtomicReference<Composite> selectedGroup;
@@ -70,7 +68,7 @@ public class Canvas extends JPanel implements ActionListener {
      * Creates an canvas.
      */
     public Canvas() {
-        this.shapes = new ArrayList();
+        this.selectedMode = Mode.none;
         this.anchorY = 0;
         this.anchorX = 0;
         this.clickX = 0;
@@ -84,9 +82,9 @@ public class Canvas extends JPanel implements ActionListener {
         
         this.history = new Stack<>();
         this.future = new Stack<>();
-        this.root = new Composite();
+        Composite root = new Composite();
         this.rootRef = new AtomicReference<>(root);
-        this.root.setGroup(rootRef);
+        this.rootRef.get().setGroup(rootRef);
         this.selectedShape = new AtomicReference();
         this.selectedGroup = new AtomicReference();
         this.newShape = new AtomicReference();
@@ -267,9 +265,7 @@ public class Canvas extends JPanel implements ActionListener {
                         FileIO.save(rootRef.get(), "test.txt");
                         break;
                     case VK_L:
-                        System.out.println(root.print(""));
                         rootRef.set(FileIO.load("test.txt"));
-                        System.out.println(root.print(""));
                         repaint(); 
                         break;
                     case VK_ESCAPE:
@@ -347,7 +343,6 @@ public class Canvas extends JPanel implements ActionListener {
             case "rectangle":
                 text.setText("Rectangle selected");
                 selectedMode = Mode.rectangle;
-                System.out.println(root.print(""));
                 break;
             case "select":
                 text.setText("Select Mode");
