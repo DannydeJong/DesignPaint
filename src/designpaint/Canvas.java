@@ -53,8 +53,6 @@ public class Canvas extends JPanel implements ActionListener {
     
     private int clickX;
     private int clickY;
-    private int dragX;
-    private int dragY;
     private int oldX;
     private int oldY;
     private int oldW;
@@ -64,16 +62,16 @@ public class Canvas extends JPanel implements ActionListener {
      * Creates an canvas.
      */
     public Canvas() {
+        //initializers - zero
         this.selectedMode = Mode.none;
         this.clickX = 0;
         this.clickY = 0;
-        this.dragX = 0;
-        this.dragY = 0;
         this.oldX = 0;
         this.oldY = 0;
         this.oldW = 0;
         this.oldH = 0;
         
+        //initializers - new
         this.history = new Stack<>();
         this.future = new Stack<>();
         Composite root = new Composite();
@@ -86,6 +84,7 @@ public class Canvas extends JPanel implements ActionListener {
         this.selectedGroup.set(rootRef.get());
         this.newShape.set(new Rectangle(0, 0, 0, 0));
         
+        //initializers - GUI
         text = new JLabel("");
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -95,6 +94,7 @@ public class Canvas extends JPanel implements ActionListener {
         this.text.setSize(900, 14);
         setBorder(BorderFactory.createLineBorder(Color.black));
 
+        //initializers - listeners
         mouse_press();
         mouse_drag();
         key_press();
@@ -110,8 +110,6 @@ public class Canvas extends JPanel implements ActionListener {
             public void mousePressed(MouseEvent e) {
                 clickX = e.getX();
                 clickY = e.getY();
-                dragX = e.getX();
-                dragY = e.getY();
                 Command cmd;
                 
                 System.out.println("History size: " + history.size());
@@ -214,8 +212,6 @@ public class Canvas extends JPanel implements ActionListener {
                     default:                        
                         break;
                 }
-                dragX = e.getX();
-                dragY = e.getY();
                 repaint();
             }
         });
@@ -274,44 +270,6 @@ public class Canvas extends JPanel implements ActionListener {
               }
         });
     }
-    // </editor-fold>
-    
-    
-    /**
-     * Handles the repaint operation.
-     * @param g graphics component.
-     */
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        rootRef.get().draw(g);
-        int x = selectedShape.get().getX();
-        int y = selectedShape.get().getY();
-        int w = selectedShape.get().getFarX() - x;
-        int h = selectedShape.get().getFarY() - y;
-        select = new Select(x, y, Math.abs(w), Math.abs(h));
-        select.draw(g);
-    }  
-    
-    /**
-     * Basic undo function.
-     */
-    private void undo() {
-        Command cmd = history.pop();
-        cmd.undo();
-        future.push(cmd);
-        repaint();
-    }
-    
-    /**
-     * Basic redo function.
-     */
-    private void redo() {
-        Command cmd = future.pop();
-        cmd.execute();
-        history.push(cmd);
-        repaint();
-    }
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -359,7 +317,7 @@ public class Canvas extends JPanel implements ActionListener {
                 Composite newGroup = new Composite();
                 newGroup.setGroup(new AtomicReference<>(newGroup));
                 System.out.println(selectedShape.get().getGroup());
-                selectedShape.get().getGroup().get().add(newGroup, true);
+                selectedShape.get().getGroup().get().add(newGroup);
                 selectedShape.set(newGroup);
                 selectedGroup.set(newGroup);
                 //root.add(new Composite());
@@ -367,6 +325,44 @@ public class Canvas extends JPanel implements ActionListener {
             default:
                 break;
         }
+    }
+    // </editor-fold>
+    
+    
+    /**
+     * Handles the repaint operation.
+     * @param g graphics component.
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        rootRef.get().draw(g);
+        int x = selectedShape.get().getX();
+        int y = selectedShape.get().getY();
+        int w = selectedShape.get().getFarX() - x;
+        int h = selectedShape.get().getFarY() - y;
+        select = new Select(x, y, Math.abs(w), Math.abs(h));
+        select.draw(g);
+    }  
+    
+    /**
+     * Basic undo function.
+     */
+    private void undo() {
+        Command cmd = history.pop();
+        cmd.undo();
+        future.push(cmd);
+        repaint();
+    }
+    
+    /**
+     * Basic redo function.
+     */
+    private void redo() {
+        Command cmd = future.pop();
+        cmd.execute();
+        history.push(cmd);
+        repaint();
     }
     
     public void setSelected(AtomicReference<Component> pointer) {
