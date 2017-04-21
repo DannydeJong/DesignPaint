@@ -53,8 +53,6 @@ public class Canvas extends JPanel implements ActionListener {
     
     private int clickX;
     private int clickY;
-    private int dragX;
-    private int dragY;
     private int oldX;
     private int oldY;
     private int oldW;
@@ -67,8 +65,6 @@ public class Canvas extends JPanel implements ActionListener {
         this.selectedMode = Mode.none;
         this.clickX = 0;
         this.clickY = 0;
-        this.dragX = 0;
-        this.dragY = 0;
         this.oldX = 0;
         this.oldY = 0;
         this.oldW = 0;
@@ -110,8 +106,6 @@ public class Canvas extends JPanel implements ActionListener {
             public void mousePressed(MouseEvent e) {
                 clickX = e.getX();
                 clickY = e.getY();
-                dragX = e.getX();
-                dragY = e.getY();
                 Command cmd;
                 
                 System.out.println("History size: " + history.size());
@@ -214,8 +208,6 @@ public class Canvas extends JPanel implements ActionListener {
                     default:                        
                         break;
                 }
-                dragX = e.getX();
-                dragY = e.getY();
                 repaint();
             }
         });
