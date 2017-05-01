@@ -125,7 +125,7 @@ public class Composite implements Component{
      */
     @Override
     public void draw(Graphics g) {
-        components.forEach((component) -> component.draw(g));
+        components.parallelStream().forEach((component) -> component.draw(g));
     }
     
     /**
@@ -137,7 +137,12 @@ public class Composite implements Component{
     public List<GroupListItem> toFlatList(String prefix) {
         List<GroupListItem> ret = new ArrayList<>();
         ret.add(this.toListItem(prefix));
-        components.forEach((Component c) -> ret.addAll(c.toFlatList(prefix+"--")));
+        components.parallelStream().forEachOrdered((Component c) -> ret.addAll(c.toFlatList(prefix+"--")));
+//        ret.addAll(components.parallelStream().map((Component c) -> {
+//            return c.toFlatList(prefix+"--");
+//        }).flatMap((List<GroupListItem> li) -> {
+//            return li.stream();
+//        }).collect(Collectors.toList()));
         return ret;
     }
 
@@ -273,6 +278,7 @@ public class Composite implements Component{
     @Override
     public void Accept(Visitor v) {
         v.Visit(this);
-        components.forEach((Component component) -> component.Accept(v));
+//        components.forEach((Component component) -> component.Accept(v));
+        components.parallelStream().forEach(c -> c.Accept(v));
     }
 }
