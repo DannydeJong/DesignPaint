@@ -369,7 +369,7 @@ public class Canvas extends JPanel implements ActionListener {
         this.selectedShape = pointer;
     }
     
-    AtomicReference<Composite> getTree() {
+    AtomicReference<Composite> getRoot() {
         return rootRef;
     }
 }

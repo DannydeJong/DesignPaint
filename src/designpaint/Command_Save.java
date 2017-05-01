@@ -50,7 +50,7 @@ public class Command_Save extends Command {
     }
 
     /**
-     * NOT ALLOWED
+     * NOT ALLOWED (undoing writing to a file would make no sense!)
      * @throws UnsupportedOperationException ALWAYS
      */
     @Override
