@@ -63,7 +63,7 @@ public class Composite implements Component{
      */
     @Override
     public void resize(int offsetW, int offsetH) {
-        components.forEach((component) -> component.resize(offsetW, offsetH));
+//        components.forEach((component) -> component.resize(offsetW, offsetH));
     }
 
     /**
@@ -73,8 +73,8 @@ public class Composite implements Component{
      */
     @Override
     public void move(int offsetX, int offsetY) {
-        System.out.println(offsetX);
-        components.forEach((component) -> component.move(offsetX, offsetY));
+//        System.out.println(offsetX);
+//        components.forEach((component) -> component.move(offsetX, offsetY));
     }
     
     /**
