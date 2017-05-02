@@ -1,6 +1,11 @@
 package designpaint;
 
 import java.awt.Graphics;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -18,7 +23,6 @@ public class Shape implements Component{
     protected int originX;
     protected int originY;
     private AtomicReference<Composite> parent;
-    protected Strategy strategy;
     
     /**
      * Creates a shape at certain coordinates, on a canvas.
@@ -28,8 +32,9 @@ public class Shape implements Component{
      * @param width The width of the shape.
      * @param height Height of the shape.
      */
-    Shape(int originX, int originY, int width, int height, Strategy strategy) {
-        this.strategy = strategy;
+    Shape(int originX, int originY, int width, int height) {
+        
+//        this.id = id;
         this.originX = originX;
         this.originY = originY;
         this.coordinateX = originX;
@@ -44,7 +49,7 @@ public class Shape implements Component{
      * @param shape Shape to be copied
      */
     public Shape(Shape shape) {
-        this(shape.getOriginX(), shape.getOriginY(), shape.getWidth(), shape.getHeight(), shape.getStrategy());
+        this(shape.getOriginX(), shape.getOriginY(), shape.getWidth(), shape.getHeight());
         //no defensive copies are created here, since 
         //there are no mutable object fields (String is immutable)
     }
@@ -55,7 +60,7 @@ public class Shape implements Component{
      */
     @Override
     public void draw(Graphics g) {
-        strategy.draw(g, this);
+        
     }
     
     @Override
@@ -262,14 +267,4 @@ public class Shape implements Component{
     public void setGroup(AtomicReference<Composite> composite) {
         this.parent = composite;
     }
-
-    public Strategy getStrategy() {
-        return strategy;
-    }
-
-    public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
-    }
-    
-    
  }
