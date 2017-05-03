@@ -23,6 +23,7 @@ public class Shape implements Component{
     protected int originX;
     protected int originY;
     private AtomicReference<Composite> parent;
+    private DrawStrategy strategy;
     
     /**
      * Creates a shape at certain coordinates, on a canvas.
@@ -54,13 +55,17 @@ public class Shape implements Component{
         //there are no mutable object fields (String is immutable)
     }
     
+    public void setStrategy(DrawStrategy strategy){
+        this.strategy = strategy;
+    }
+    
     /**
      * Draws the shape at its coordinates.
      * @param g
      */
     @Override
     public void draw(Graphics g) {
-        
+        strategy.draw(g, coordinateX, coordinateY, width, height);
     }
     
     @Override

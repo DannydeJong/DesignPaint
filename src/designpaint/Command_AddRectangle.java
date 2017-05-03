@@ -24,7 +24,9 @@ public class Command_AddRectangle extends Command {
         int height = h - y;
         this.group = group;
         this.newShape = newShape;
-        this.newShape.set(new Rectangle(x, y, width, height));
+        Shape shape = new Shape(x, y, width, height);
+        shape.setStrategy(new RectangleStrategy());
+        this.newShape.set(shape);
         this.shape = newShape.get();
     }
 

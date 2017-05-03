@@ -24,7 +24,9 @@ public class Command_AddEllipse extends Command {
         int height = h - y;
         this.group = group;
         this.newShape = newShape;
-        this.newShape.set(new Ellipse(x, y, width, height));
+        Shape shape = new Shape(x, y, width, height);
+        shape.setStrategy(new EllipseStrategy());
+        this.newShape.set(shape);
         this.shape = newShape.get();
     }
 

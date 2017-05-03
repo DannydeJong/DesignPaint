@@ -29,15 +29,6 @@ public class Rectangle extends Shape {
         graphics.setColor(Color.black);
         graphics.drawRect(coordinateX, coordinateY, Math.abs(width), Math.abs(height));
     }
-    
-    /**
-     * Gets the name of the Shape subclass used to instantiate this.
-     * @return The name of the Shape type (presumably Rectangle)
-     */
-    @Override
-    public String getShapeType(){
-        return this.getClass().getSimpleName();
-    }
 
     /**
      * Generates a String representation of this Shape, that can be saved to a file.
